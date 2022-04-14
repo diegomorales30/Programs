@@ -83,6 +83,8 @@ public class WebWorker implements Runnable
 				while (!r.ready())
 					Thread.sleep(1);
 				line = r.readLine();
+				System.out.println("HELLO THIS BELOW IS WHAT LINE IS");
+				System.out.println(line);
 				System.err.println("Request line: (" + line + ")");
 				if (line.length() == 0)
 					break;
