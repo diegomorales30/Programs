@@ -1,5 +1,11 @@
 package edu.nmsu.cs.webserver;
 
+import java.net.Socket;
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Scanner;
+import java.util.TimeZone;
+
 /**
  * Web worker: an object of this class executes in its own new thread to receive and respond to a
  * single HTTP request. After the constructor the object executes on its "run" method, and leaves
@@ -20,15 +26,7 @@ package edu.nmsu.cs.webserver;
  * @author Jon Cook, Ph.D.
  *
  **/
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.Socket;
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.TimeZone;
+import java.io.*;
 
 public class WebWorker implements Runnable
 {
@@ -55,9 +53,10 @@ public class WebWorker implements Runnable
 		{
 			InputStream is = socket.getInputStream();
 			OutputStream os = socket.getOutputStream();
-			readHTTPRequest(is);
-			writeHTTPHeader(os, "text/html");
-			writeContent(os);
+			String pathOf = readHTTPRequest(is);
+			File fName = checkFile(pathOf);
+			writeHTTPHeader(os, "text/html",fName);
+			writeContent(os,fName);
 			os.flush();
 			socket.close();
 		}
@@ -72,9 +71,10 @@ public class WebWorker implements Runnable
 	/**
 	 * Read the HTTP request header.
 	 **/
-	private void readHTTPRequest(InputStream is)
+	private String readHTTPRequest(InputStream is)
 	{
 		String line;
+		String path = "";
 		BufferedReader r = new BufferedReader(new InputStreamReader(is));
 		while (true)
 		{
@@ -83,11 +83,15 @@ public class WebWorker implements Runnable
 				while (!r.ready())
 					Thread.sleep(1);
 				line = r.readLine();
-				System.out.println("HELLO THIS BELOW IS WHAT LINE IS");
-				System.out.println(line);
+				String [] checkPath = line.split(" ");
 				System.err.println("Request line: (" + line + ")");
+			
 				if (line.length() == 0)
 					break;
+				
+				if(checkPath[0].equals("GET"))
+					path = path + checkPath[1];
+	
 			}
 			catch (Exception e)
 			{
@@ -95,7 +99,37 @@ public class WebWorker implements Runnable
 				break;
 			}
 		}
-		return;
+
+
+		return path;
+	}
+
+	private File checkFile(String filePath){
+		File fName = null;
+		String nFilePath = "";
+		if(filePath.equals("/")){
+			System.out.println("hello");
+			fName = new File("index.html");
+			System.out.println(fName.exists());
+			if(fName.exists()){
+				System.out.println("Home Page found");
+				return fName;
+			}
+				
+		}
+			
+		else{
+			nFilePath = filePath.substring(1);
+			fName = new File(nFilePath);
+			if(fName.exists()){
+				System.out.println("Other page found");
+				return fName;
+			}
+				
+		}
+
+		return fName;
+
 	}
 
 	/**
@@ -106,12 +140,16 @@ public class WebWorker implements Runnable
 	 * @param contentType
 	 *          is the string MIME content type (e.g. "text/html")
 	 **/
-	private void writeHTTPHeader(OutputStream os, String contentType) throws Exception
+	private void writeHTTPHeader(OutputStream os, String contentType,File filePath) throws Exception
 	{
+		
 		Date d = new Date();
 		DateFormat df = DateFormat.getDateTimeInstance();
 		df.setTimeZone(TimeZone.getTimeZone("GMT"));
-		os.write("HTTP/1.1 200 OK\n".getBytes());
+		if(filePath == null)
+			os.write("HTTP/1.1 404 NotFound\n".getBytes());
+		else
+			os.write("HTTP/1.1 200 OK\n".getBytes());
 		os.write("Date: ".getBytes());
 		os.write((df.format(d)).getBytes());
 		os.write("\n".getBytes());
@@ -132,11 +170,17 @@ public class WebWorker implements Runnable
 	 * @param os
 	 *          is the OutputStream object to write to
 	 **/
-	private void writeContent(OutputStream os) throws Exception
+	private void writeContent(OutputStream os,File fName) throws Exception
 	{
-		os.write("<html><head></head><body>\n".getBytes());
-		os.write("<h3>My web server works!</h3>\n".getBytes());
-		os.write("</body></html>\n".getBytes());
+		String strLine;
+		BufferedReader bRead = new BufferedReader(new FileReader(fName));
+		while((strLine = bRead.readLine()) != null){
+			os.write(strLine.getBytes());
+			
+		}
+		//os.write("<html><head></head><body>\n".getBytes());
+		//os.write("<h3>My web server works!</h3>\n".getBytes());
+		//os.write("</body></html>\n".getBytes());
 	}
 
 } // end class
