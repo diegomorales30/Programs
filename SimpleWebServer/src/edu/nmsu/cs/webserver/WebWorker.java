@@ -54,9 +54,9 @@ public class WebWorker implements Runnable
 			InputStream is = socket.getInputStream();
 			OutputStream os = socket.getOutputStream();
 			String pathOf = readHTTPRequest(is);
-			File fName = checkFile(pathOf);
-			writeHTTPHeader(os, "text/html",fName);
-			writeContent(os,fName);
+			File file = checkFile(pathOf);
+			writeHTTPHeader(os, "text/html",file);
+			writeContent(os,file);
 			os.flush();
 			socket.close();
 		}
@@ -105,14 +105,33 @@ public class WebWorker implements Runnable
 	}
 
 	private File checkFile(String filePath){
-		File fName = null;
+		File fName = new File(filePath);
 		String nFilePath = "";
-		if(filePath.equals("/")){
-			System.out.println("hello");
+
+		if(!fName.exists()){
+			fName = null;
+		}
+
+		else{
+			if(filePath.equals("/")){
+				fName = new File("index.html");
+				if(fName.exists())
+					return fName;
+				else{
+					nFilePath = filePath.substring(1);
+					fName = new File(nFilePath);
+					if(fName.exists()){
+						System.out.println("hello");
+						return fName;
+					}
+				}
+			}
+		}
+		
+
+		/*if(filePath.equals("/")){
 			fName = new File("index.html");
-			System.out.println(fName.exists());
 			if(fName.exists()){
-				System.out.println("Home Page found");
 				return fName;
 			}
 				
@@ -122,11 +141,11 @@ public class WebWorker implements Runnable
 			nFilePath = filePath.substring(1);
 			fName = new File(nFilePath);
 			if(fName.exists()){
-				System.out.println("Other page found");
+				System.out.println("hello");
 				return fName;
 			}
 				
-		}
+		}*/
 
 		return fName;
 
@@ -170,17 +189,34 @@ public class WebWorker implements Runnable
 	 * @param os
 	 *          is the OutputStream object to write to
 	 **/
-	private void writeContent(OutputStream os,File fName) throws Exception
+	private void writeContent(OutputStream os,File file) throws Exception
 	{
-		String strLine;
-		BufferedReader bRead = new BufferedReader(new FileReader(fName));
-		while((strLine = bRead.readLine()) != null){
-			os.write(strLine.getBytes());
-			
+
+		try {
+			if(file == null){
+				os.write("<html><head></head><body>\n".getBytes());
+				os.write("<h3>404 Not Found</h3>\n".getBytes());
+				os.write("</body></html>\n".getBytes());
+				return;
+			}
+	
+			else{
+				String strLine;
+				Date dateTime = new Date();
+				BufferedReader bRead = new BufferedReader(new FileReader(file));
+				while((strLine = bRead.readLine()) != null){
+					strLine = strLine
+						.replaceAll("<cs371date>", dateTime.toString())
+						.replaceAll("<cs371server>", "Diego Websever");
+					os.write(strLine.getBytes());
+				
+				}
+				bRead.close();
+			}
+		} catch (Exception e) {
+			System.err.println("Reading File error" + e);
 		}
-		//os.write("<html><head></head><body>\n".getBytes());
-		//os.write("<h3>My web server works!</h3>\n".getBytes());
-		//os.write("</body></html>\n".getBytes());
+		
 	}
 
 } // end class
