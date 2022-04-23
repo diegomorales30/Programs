@@ -1,1 +1,6 @@
-What is a question
+Thought/Design: 2 days
+Programming: 1 day
+Debugging: 2 days
+total: 5 days
+
+80% accuracy to get this project done
