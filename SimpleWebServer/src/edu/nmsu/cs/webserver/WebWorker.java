@@ -42,6 +42,8 @@ public class WebWorker implements Runnable
 	}
 
 	/**
+	 * @return path
+	 * 		This is a string of the path
 	 * Worker thread starting point. Each worker handles just one HTTP request and then returns, which
 	 * destroys the thread. This method assumes that whoever created the worker created it with a
 	 * valid open socket object.
@@ -53,7 +55,9 @@ public class WebWorker implements Runnable
 		{
 			InputStream is = socket.getInputStream();
 			OutputStream os = socket.getOutputStream();
+			// method returns the path of the file
 			String pathOf = readHTTPRequest(is);
+			// this method returns a file
 			File file = checkFile(pathOf);
 			writeHTTPHeader(os, "text/html",file);
 			writeContent(os,file);
@@ -70,6 +74,9 @@ public class WebWorker implements Runnable
 
 	/**
 	 * Read the HTTP request header.
+	 * This mehtod parses the string Get into an array. If the key word GET is first then
+	 * it will get the length of the path and turn it into a string. Then this method will
+	 * return a string called path.
 	 **/
 	private String readHTTPRequest(InputStream is)
 	{
@@ -83,12 +90,13 @@ public class WebWorker implements Runnable
 				while (!r.ready())
 					Thread.sleep(1);
 				line = r.readLine();
+				//checking the path by spliting it into an array
 				String [] checkPath = line.split(" ");
 				System.err.println("Request line: (" + line + ")");
 			
 				if (line.length() == 0)
 					break;
-				
+				// checks to see if the the first element in the array is get 
 				if(checkPath[0].equals("GET"))
 					path = path + checkPath[1];
 	
@@ -100,55 +108,43 @@ public class WebWorker implements Runnable
 			}
 		}
 
-
+		// returns the string of the path
 		return path;
 	}
 
+	/**
+	 * 
+	 * @param filePath
+	 * 	is the string of the path
+	 * @return 
+	 * 		A new file if it exist and if the file does not exist then the return turn type is null
+	 * 
+	 *	This method checks the file length to see if it is the original / if it is it set the file
+	 *	name to index.html if the length is greater than one then it creats a new file with that name
+	 *  If the file name does not exist it returns null. If the file path exist it will return the file 
+	 */
 	private File checkFile(String filePath){
-		File fName = new File(filePath);
+		File fName = null;
 		String nFilePath = "";
-
-		if(!fName.exists()){
-			fName = null;
-		}
-
-		else{
-			if(filePath.equals("/")){
-				fName = new File("index.html");
-				if(fName.exists())
-					return fName;
-				else{
-					nFilePath = filePath.substring(1);
-					fName = new File(nFilePath);
-					if(fName.exists()){
-						System.out.println("hello");
-						return fName;
-					}
-				}
-			}
-		}
 		
-
-		/*if(filePath.equals("/")){
+		// 
+		if(filePath.length() <= 1){
 			fName = new File("index.html");
-			if(fName.exists()){
+			if(fName.exists())
 				return fName;
-			}
-				
 		}
-			
+		// this block checks for any size of length getter than 1
+		// forward slash followed by other text
 		else{
 			nFilePath = filePath.substring(1);
 			fName = new File(nFilePath);
 			if(fName.exists()){
-				System.out.println("hello");
 				return fName;
 			}
-				
-		}*/
-
+			return null;
+		}
+	
 		return fName;
-
 	}
 
 	/**
@@ -158,6 +154,11 @@ public class WebWorker implements Runnable
 	 *          is the OutputStream object to write to
 	 * @param contentType
 	 *          is the string MIME content type (e.g. "text/html")
+	 * @param filePath
+	 * 			This is the parametor that hold a file can either be null or a file
+	 * 
+	 * If the file does not exist it writes out 404 not found. If the file is not null
+	 * then it writes out the HTTP 200 ok.
 	 **/
 	private void writeHTTPHeader(OutputStream os, String contentType,File filePath) throws Exception
 	{
@@ -165,8 +166,10 @@ public class WebWorker implements Runnable
 		Date d = new Date();
 		DateFormat df = DateFormat.getDateTimeInstance();
 		df.setTimeZone(TimeZone.getTimeZone("GMT"));
+		// if the file does not exist then write out 404 not found
 		if(filePath == null)
 			os.write("HTTP/1.1 404 NotFound\n".getBytes());
+		// the file exist
 		else
 			os.write("HTTP/1.1 200 OK\n".getBytes());
 		os.write("Date: ".getBytes());
@@ -188,11 +191,17 @@ public class WebWorker implements Runnable
 	 * 
 	 * @param os
 	 *          is the OutputStream object to write to
+	 * @param file
+	 * 			This is the new file
+	 * This method checks to see if the file path is null if it is the the html code
+	 * is 404 not found. If the file exist then it will write out the html code to
+	 * the webpage.
 	 **/
 	private void writeContent(OutputStream os,File file) throws Exception
 	{
 
 		try {
+			// if the file does not exist then write out 404 not found
 			if(file == null){
 				os.write("<html><head></head><body>\n".getBytes());
 				os.write("<h3>404 Not Found</h3>\n".getBytes());
@@ -201,6 +210,7 @@ public class WebWorker implements Runnable
 			}
 	
 			else{
+				// if the file exist then write out the contant
 				String strLine;
 				Date dateTime = new Date();
 				BufferedReader bRead = new BufferedReader(new FileReader(file));
