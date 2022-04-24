@@ -35,6 +35,7 @@ public class WebWorker implements Runnable
 {
 
 	private Socket socket;
+	// this variable is used to get the extention path that will be a string value
 	private String extentionPath;
 
 	/**
@@ -130,31 +131,34 @@ public class WebWorker implements Runnable
 	 *	This method checks the file length to see if it is the original / if it is it set the file
 	 *	name to index.html if the length is greater than one then it creats a new file with that name
 	 *  If the file name does not exist it returns null. If the file path exist it will return the file 
+	 * 
+	 * ************************************
+	 * Update: This method update was to make the file path come from www/res/acc/file type
+	 * if the file exist then it will return the file path else return null. This method had
+	 * to lose the length checking and just check if the file existed.
 	 */
 	private File checkFile(String filePath){
 		File fName = null;
 		String nFilePath = "";
 		
-		// 
-		/*if(filePath.length() <= 1){
-			fName = new File("index.html");
-			if(fName.exists())
-				return fName;
-		}*/
-		// this block checks for any size of length getter than 1
-		// forward slash followed by other text
-		
-			nFilePath = filePath.substring(0);
-			fName = new File(nFilePath);
-			if(fName.exists()){
-				return fName;
-			}
-			return null;
-		
-	
-		//return fName;
+		nFilePath = filePath.substring(0);
+		fName = new File(nFilePath);
+		if(fName.exists()){
+			return fName;
+		}
+		return null;
 	}
 
+	/**
+	 * 
+	 * @param extentionPath
+	 * 			This method takes in a string with the extention type
+	 * @return
+	 * 		This method returns a string if it equals any of these file paths
+	 * 
+	 * This method check the extion path if any of then match these types then it 
+	 * will return a string of that extention. This is import to use in write content
+	 */
 	private String checkFileType(String extentionPath){
 		String empty = null;
 		if(extentionPath.equals("html")){
@@ -181,6 +185,8 @@ public class WebWorker implements Runnable
 	 *          is the OutputStream object to write to
 	 * @param contentType
 	 *          is the string MIME content type (e.g. "text/html")
+	 * @param contentType
+	 * 			The content of the file
 	 * @param filePath
 	 * 			This is the parametor that hold a file can either be null or a file
 	 * 
@@ -220,9 +226,12 @@ public class WebWorker implements Runnable
 	 *          is the OutputStream object to write to
 	 * @param file
 	 * 			This is the new file
+	 * @param contentType
+	 * 			This param holds the content type of the file
 	 * This method checks to see if the file path is null if it is the the html code
 	 * is 404 not found. If the file exist then it will write out the html code to
-	 * the webpage.
+	 * the webpage. This method will also be able to handle proccessing images and
+	 * putting them on a webpage.
 	 **/
 	private void writeContent(OutputStream os,File file,String contentType) throws Exception
 	{
@@ -250,6 +259,7 @@ public class WebWorker implements Runnable
 					}
 					bRead.close();
 				}
+				// this else if checks for the images that have a jpg
 				else if(contentType.equals("image/jpg")){
 					BufferedImage imageProcces = null;
 					ByteArrayOutputStream imageHolder = new ByteArrayOutputStream();
@@ -264,6 +274,7 @@ public class WebWorker implements Runnable
 					os.write(imageBytes);
 				}
 
+				// this else if checks for the images that have a png
 				else if(contentType.equals("image/png")){
 					BufferedImage imageProcces = null;
 					ByteArrayOutputStream imageHolder = new ByteArrayOutputStream();
@@ -278,6 +289,7 @@ public class WebWorker implements Runnable
 					os.write(imageBytes);
 				}
 
+				// this else if checks for the image that have a gif
 				else if(contentType.equals("image/gif")){
 					BufferedImage imageProcces = null;
 					ByteArrayOutputStream imageHolder = new ByteArrayOutputStream();
