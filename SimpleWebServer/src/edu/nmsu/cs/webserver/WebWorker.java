@@ -5,6 +5,9 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.TimeZone;
+import java.io.*;
+import java.awt.image.*;
+import javax.imageio.*;
 
 /**
  * Web worker: an object of this class executes in its own new thread to receive and respond to a
@@ -26,12 +29,13 @@ import java.util.TimeZone;
  * @author Jon Cook, Ph.D.
  *
  **/
-import java.io.*;
+
 
 public class WebWorker implements Runnable
 {
 
 	private Socket socket;
+	private String extentionPath;
 
 	/**
 	 * Constructor: must have a valid open socket
@@ -59,8 +63,9 @@ public class WebWorker implements Runnable
 			String pathOf = readHTTPRequest(is);
 			// this method returns a file
 			File file = checkFile(pathOf);
-			writeHTTPHeader(os, "text/html",file);
-			writeContent(os,file);
+			String fileType = checkFileType(extentionPath);
+			writeHTTPHeader(os,fileType,file);
+			writeContent(os,file,fileType);
 			os.flush();
 			socket.close();
 		}
@@ -97,8 +102,11 @@ public class WebWorker implements Runnable
 				if (line.length() == 0)
 					break;
 				// checks to see if the the first element in the array is get 
-				if(checkPath[0].equals("GET"))
-					path = path + checkPath[1];
+				if(checkPath[0].equals("GET")){
+					path = "www/" + path + checkPath[1];
+					extentionPath = path.substring(path.indexOf('.') + 1);
+				}
+					
 	
 			}
 			catch (Exception e)
@@ -128,23 +136,42 @@ public class WebWorker implements Runnable
 		String nFilePath = "";
 		
 		// 
-		if(filePath.length() <= 1){
+		/*if(filePath.length() <= 1){
 			fName = new File("index.html");
 			if(fName.exists())
 				return fName;
-		}
+		}*/
 		// this block checks for any size of length getter than 1
 		// forward slash followed by other text
-		else{
-			nFilePath = filePath.substring(1);
+		
+			nFilePath = filePath.substring(0);
 			fName = new File(nFilePath);
 			if(fName.exists()){
 				return fName;
 			}
 			return null;
-		}
+		
 	
-		return fName;
+		//return fName;
+	}
+
+	private String checkFileType(String extentionPath){
+		String empty = null;
+		if(extentionPath.equals("html")){
+			return "text/html";
+		}
+		else if(extentionPath.equals("jpg")){
+			return "image/jpg";
+		}
+
+		else if(extentionPath.equals("png")){
+			return "image/png";
+		}
+
+		else if(extentionPath.equals("gif")){
+			return "image/gif";
+		}
+		return empty;
 	}
 
 	/**
@@ -167,7 +194,7 @@ public class WebWorker implements Runnable
 		DateFormat df = DateFormat.getDateTimeInstance();
 		df.setTimeZone(TimeZone.getTimeZone("GMT"));
 		// if the file does not exist then write out 404 not found
-		if(filePath == null)
+		if(filePath == null && contentType == null)
 			os.write("HTTP/1.1 404 NotFound\n".getBytes());
 		// the file exist
 		else
@@ -197,12 +224,11 @@ public class WebWorker implements Runnable
 	 * is 404 not found. If the file exist then it will write out the html code to
 	 * the webpage.
 	 **/
-	private void writeContent(OutputStream os,File file) throws Exception
+	private void writeContent(OutputStream os,File file,String contentType) throws Exception
 	{
 
-		try {
 			// if the file does not exist then write out 404 not found
-			if(file == null){
+			if(file == null && contentType == null){
 				os.write("<html><head></head><body>\n".getBytes());
 				os.write("<h3>404 Not Found</h3>\n".getBytes());
 				os.write("</body></html>\n".getBytes());
@@ -214,18 +240,60 @@ public class WebWorker implements Runnable
 				String strLine;
 				Date dateTime = new Date();
 				BufferedReader bRead = new BufferedReader(new FileReader(file));
-				while((strLine = bRead.readLine()) != null){
-					strLine = strLine
-						.replaceAll("<cs371date>", dateTime.toString())
-						.replaceAll("<cs371server>", "Diego Websever");
-					os.write(strLine.getBytes());
-				
+				if(contentType.equals("text/html")){
+					while((strLine = bRead.readLine()) != null){
+						strLine = strLine
+							.replaceAll("<cs371date>", dateTime.toString())
+							.replaceAll("<cs371server>", "Diego Websever");
+						os.write(strLine.getBytes());
+					
+					}
+					bRead.close();
 				}
-				bRead.close();
+				else if(contentType.equals("image/jpg")){
+					BufferedImage imageProcces = null;
+					ByteArrayOutputStream imageHolder = new ByteArrayOutputStream();
+					try {
+						imageProcces = ImageIO.read(file);
+					} catch (Exception e) {
+						System.out.println("Image not found" + e);
+					}
+					ImageIO.write(imageProcces,"jpg",imageHolder);
+					// bites of image in this array for the format of jpg
+					byte[] imageBytes = imageHolder.toByteArray();
+					os.write(imageBytes);
+				}
+
+				else if(contentType.equals("image/png")){
+					BufferedImage imageProcces = null;
+					ByteArrayOutputStream imageHolder = new ByteArrayOutputStream();
+					try {
+						imageProcces = ImageIO.read(file);
+					} catch (Exception e) {
+						System.out.println("Image not found" + e);
+					}
+					ImageIO.write(imageProcces,"png",imageHolder);
+					// bites of image in this array for the format of jpg
+					byte[] imageBytes = imageHolder.toByteArray();
+					os.write(imageBytes);
+				}
+
+				else if(contentType.equals("image/gif")){
+					BufferedImage imageProcces = null;
+					ByteArrayOutputStream imageHolder = new ByteArrayOutputStream();
+					try {
+						imageProcces = ImageIO.read(file);
+					} catch (Exception e) {
+						System.out.println("Image not found" + e);
+					}
+					ImageIO.write(imageProcces,"gif",imageHolder);
+					// bites of image in this array for the format of jpg
+					byte[] imageBytes = imageHolder.toByteArray();
+					os.write(imageBytes);
+				}
+				
 			}
-		} catch (Exception e) {
-			System.err.println("Reading File error" + e);
-		}
+		
 		
 	}
 
