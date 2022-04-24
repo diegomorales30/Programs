@@ -194,7 +194,7 @@ public class WebWorker implements Runnable
 		DateFormat df = DateFormat.getDateTimeInstance();
 		df.setTimeZone(TimeZone.getTimeZone("GMT"));
 		// if the file does not exist then write out 404 not found
-		if(filePath == null && contentType == null)
+		if(filePath == null)
 			os.write("HTTP/1.1 404 NotFound\n".getBytes());
 		// the file exist
 		else
@@ -228,7 +228,7 @@ public class WebWorker implements Runnable
 	{
 
 			// if the file does not exist then write out 404 not found
-			if(file == null && contentType == null){
+			if(file == null){
 				os.write("<html><head></head><body>\n".getBytes());
 				os.write("<h3>404 Not Found</h3>\n".getBytes());
 				os.write("</body></html>\n".getBytes());
