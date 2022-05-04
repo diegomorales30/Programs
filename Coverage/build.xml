@@ -263,45 +263,7 @@
 			</java>
 		</jacoco:coverage>
 
-		<echo message="TEST RacingScore2: 4 59 -1" />
-		<jacoco:coverage destfile="${result.exec.file}">
-			<java classname="edu.nmsu.cs.scoring.RacingScore2" fork="true">
-				<classpath path="${build.dir}" />
-				<arg value="4" />
-				<arg value="59" />
-				<arg value="-1" />
-			</java>
-		</jacoco:coverage>
-
-		<echo message="TEST RacingScore2: 59 -1 4" />
-		<jacoco:coverage destfile="${result.exec.file}">
-			<java classname="edu.nmsu.cs.scoring.RacingScore2" fork="true">
-				<classpath path="${build.dir}" />
-				<arg value="59" />
-				<arg value="-1" />
-				<arg value="4" />
-			</java>
-		</jacoco:coverage>
-
-		<echo message="TEST RacingScore2: -1 4 59" />
-		<jacoco:coverage destfile="${result.exec.file}">
-			<java classname="edu.nmsu.cs.scoring.RacingScore2" fork="true">
-				<classpath path="${build.dir}" />
-				<arg value="-1" />
-				<arg value="4" />
-				<arg value="59" />
-			</java>
-		</jacoco:coverage>
-
-		<echo message="TEST RacingScore2: a b c" />
-		<jacoco:coverage destfile="${result.exec.file}">
-			<java classname="edu.nmsu.cs.scoring.RacingScore2" fork="true">
-				<classpath path="${build.dir}" />
-				<arg value="a" />
-				<arg value="b" />
-				<arg value="c" />
-			</java>
-		</jacoco:coverage>
+		
 
 	</target>
 
