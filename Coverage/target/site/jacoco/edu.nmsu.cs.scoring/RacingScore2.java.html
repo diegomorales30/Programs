@@ -37,17 +37,17 @@ public class RacingScore2
 	public int overallScore()
 	{
 		int s, s1, s2;
-<span class="fc bfc" id="L40" title="All 4 branches covered.">		if (score1 &lt; score2 &amp;&amp; score1 &lt; score3)</span>
+<span class="pc bpc" id="L40" title="1 of 4 branches missed.">		if (score1 &lt; score2 &amp;&amp; score1 &lt; score3)</span>
 		{
-<span class="fc" id="L42">			s1 = score2;</span>
-<span class="fc" id="L43">			s2 = score3;</span>
+<span class="nc" id="L42">			s1 = score2;</span>
+<span class="nc" id="L43">			s2 = score3;</span>
 		}
-<span class="fc bfc" id="L45" title="All 4 branches covered.">		else if (score2 &lt; score1 &amp;&amp; score2 &lt; score3)</span>
+<span class="pc bpc" id="L45" title="3 of 4 branches missed.">		else if (score2 &lt; score1 &amp;&amp; score2 &lt; score3)</span>
 		{
-<span class="fc" id="L47">			s1 = score1;</span>
-<span class="fc" id="L48">			s2 = score2;</span>
+<span class="nc" id="L47">			s1 = score1;</span>
+<span class="nc" id="L48">			s2 = score2;</span>
 		}
-<span class="fc bfc" id="L50" title="All 4 branches covered.">		else if (score3 &lt; score1 &amp;&amp; score1 &lt; score2)</span>
+<span class="pc bpc" id="L50" title="1 of 4 branches missed.">		else if (score3 &lt; score1 &amp;&amp; score1 &lt; score2)</span>
 		{
 <span class="fc" id="L52">			s1 = score1;</span>
 <span class="fc" id="L53">			s2 = score2;</span>
@@ -65,10 +65,10 @@ public class RacingScore2
 	{
 		int s1, s2, s3;
 		// need to get rid of null becasue array will never be null
-<span class="fc bfc" id="L68" title="All 2 branches covered.">		if (args.length != 3)</span>
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">		if (args.length != 3)</span>
 		{
-<span class="fc" id="L70">			System.err.println(&quot;Error: must supply three arguments!&quot;);</span>
-<span class="fc" id="L71">			return;</span>
+<span class="nc" id="L70">			System.err.println(&quot;Error: must supply three arguments!&quot;);</span>
+<span class="nc" id="L71">			return;</span>
 		}
 		try
 		{
@@ -76,15 +76,15 @@ public class RacingScore2
 <span class="fc" id="L76">			s2 = Integer.parseInt(args[1]);</span>
 <span class="fc" id="L77">			s3 = Integer.parseInt(args[2]);</span>
 		}
-<span class="fc" id="L79">		catch (Exception e)</span>
+<span class="nc" id="L79">		catch (Exception e)</span>
 		{
-<span class="fc" id="L81">			System.err.println(&quot;Error: arguments must be integers!&quot;);</span>
-<span class="fc" id="L82">			return;</span>
+<span class="nc" id="L81">			System.err.println(&quot;Error: arguments must be integers!&quot;);</span>
+<span class="nc" id="L82">			return;</span>
 <span class="fc" id="L83">		}</span>
-<span class="pc bpc" id="L84" title="2 of 12 branches missed.">		if (s1 &lt; 0 || s1 &gt; 50 || s2 &lt; 0 || s2 &gt; 50 || s3 &lt; 0 || s3 &gt; 50)</span>
+<span class="pc bpc" id="L84" title="6 of 12 branches missed.">		if (s1 &lt; 0 || s1 &gt; 50 || s2 &lt; 0 || s2 &gt; 50 || s3 &lt; 0 || s3 &gt; 50)</span>
 		{
-<span class="fc" id="L86">			System.err.println(&quot;Error: scores must be between 0 and 50!&quot;);</span>
-<span class="fc" id="L87">			return;</span>
+<span class="nc" id="L86">			System.err.println(&quot;Error: scores must be between 0 and 50!&quot;);</span>
+<span class="nc" id="L87">			return;</span>
 		}
 <span class="fc" id="L89">		RacingScore2 score = new RacingScore2();</span>
 <span class="fc" id="L90">		score.recordScores(s1, s2, s3);</span>
