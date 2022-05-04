@@ -66,24 +66,6 @@
 			</java>
 		</jacoco:coverage>
 
-		<echo message="TEST RacingScore2: 0 0 0" />
-		<jacoco:coverage destfile="${result.exec.file}">
-			<java classname="edu.nmsu.cs.scoring.RacingScore2" fork="true">
-				<classpath path="${build.dir}" />
-				<arg value="0" />
-				<arg value="0" />
-				<arg value="0" />
-			</java>
-		</jacoco:coverage>
-
-		
-
-		
-
-		
-
-
-
 		
 
 	</target>
