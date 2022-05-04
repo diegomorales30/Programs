@@ -293,6 +293,16 @@
 			</java>
 		</jacoco:coverage>
 
+		<echo message="TEST RacingScore2: a b c" />
+		<jacoco:coverage destfile="${result.exec.file}">
+			<java classname="edu.nmsu.cs.scoring.RacingScore2" fork="true">
+				<classpath path="${build.dir}" />
+				<arg value="a" />
+				<arg value="b" />
+				<arg value="c" />
+			</java>
+		</jacoco:coverage>
+
 	</target>
 
 	<target name="report" depends="test,checkReport" unless="report.notneeded">
