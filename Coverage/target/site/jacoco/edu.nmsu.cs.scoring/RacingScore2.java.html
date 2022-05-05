@@ -37,25 +37,25 @@ public class RacingScore2
 	public int overallScore()
 	{
 		int s, s1, s2;
-<span class="pc bpc" id="L40" title="1 of 4 branches missed.">		if (score1 &lt; score2 &amp;&amp; score1 &lt; score3)</span>
+<span class="fc bfc" id="L40" title="All 4 branches covered.">		if (score1 &lt; score2 &amp;&amp; score1 &lt; score3)</span>
 		{
 <span class="fc" id="L42">			s1 = score2;</span>
 <span class="fc" id="L43">			s2 = score3;</span>
 		}
-<span class="pc bpc" id="L45" title="2 of 4 branches missed.">		else if (score2 &lt; score1 &amp;&amp; score2 &lt; score3)</span>
+<span class="fc bfc" id="L45" title="All 4 branches covered.">		else if (score2 &lt; score1 &amp;&amp; score2 &lt; score3)</span>
 		{
 <span class="fc" id="L47">			s1 = score1;</span>
 <span class="fc" id="L48">			s2 = score2;</span>
 		}
-<span class="nc bnc" id="L50" title="All 4 branches missed.">		else if (score3 &lt; score1 &amp;&amp; score3 &lt; score2)</span>
+<span class="fc bfc" id="L50" title="All 4 branches covered.">		else if (score3 &lt; score1 &amp;&amp; score3 &lt; score2)</span>
 		{
-<span class="nc" id="L52">			s1 = score1;</span>
-<span class="nc" id="L53">			s2 = score2;</span>
+<span class="fc" id="L52">			s1 = score1;</span>
+<span class="fc" id="L53">			s2 = score2;</span>
 		}
 		else
 		{
-<span class="nc" id="L57">			s1 = 99;</span>
-<span class="nc" id="L58">			s2 = 99;</span>
+<span class="fc" id="L57">			s1 = 99;</span>
+<span class="fc" id="L58">			s2 = 99;</span>
 		}
 <span class="fc" id="L60">		s = s1 + s2;</span>
 <span class="fc" id="L61">		return s;</span>
