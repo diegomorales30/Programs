@@ -191,6 +191,7 @@
 			</java>
 		</jacoco:coverage>
 
+		<!--Testing the if else in the class-->
 		<echo message="TEST RacingScore1: 9 11 12" />
 		<jacoco:coverage destfile="${result.exec.file}">
 			<java classname="edu.nmsu.cs.scoring.RacingScore2" fork="true">
