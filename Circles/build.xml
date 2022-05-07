@@ -14,7 +14,7 @@
 
     <target name="compile" description="compiles all java files to /bin">
         <mkdir dir="${build.dir}"/>
-        <javac srcdir="${src.dir}" destdir="{build.dir}">
+        <javac srcdir="${src.dir}" destdir="${build.dir}">
             <classpath>
                 <fileset dir="${library.dir}">
                     <include name="**/*.jar"/>
@@ -26,7 +26,7 @@
     <target name="cleancompile" depends="clean,compile"/>
 
     <target name="run" description="launches CircleRun with some default values">
-        <java classname="edu.nmsu.cs.circles.CircleRun" classpath="${build.dir}" fork="true" dir="{basedir}">
+        <java classname="edu.nmsu.cs.circles.CircleRun" classpath="${build.dir}" fork="true" dir="${basedir}">
             <arg value="0"/>
             <arg value="0"/>
             <arg value="5"/>
@@ -37,7 +37,7 @@
     </target>
 
      <target name="testCircle1" description="runs JUnit on testCircle1">
-        <java classname="edu.nmsu.cs.runner.JUnitCore" fork="true" dir="{basedir}">
+        <java classname="org.junit.runner.JUnitCore" fork="true" dir="${basedir}">
             <classpath>
                 <fileset dir="${library.dir}">
                     <include name="**/*.jar"/>
@@ -49,7 +49,7 @@
     </target>
 
     <target name="testCircle2" description="runs JUnit on testCircles2">
-        <java classname="edu.nmsu.cs.runner.JUnitCore" fork="true" dir="{basedir}">
+        <java classname="org.junit.runner.JUnitCore" fork="true" dir="${basedir}">
             <classpath>
                 <fileset dir="${library.dir}">
                     <include name="**/*.jar"/>
