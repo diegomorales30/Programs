@@ -45,6 +45,24 @@ public class Circle1Test
 		Assert.assertTrue(newRadius == orginalRadius * factorForScale);
 	}
 
+	@Test
+	public void noInterSection(){
+		Circle1 cir1 = new Circle1(0,0,10);
+		Circle1 cir2 = new Circle1(30, 30, 10);
+		System.out.println("The circles are far apart");
+		Assert.assertFalse(cir1.intersects(cir2));
+		Assert.assertFalse(cir2.intersects(cir1));
+
+		System.out.println("The two circle are barley touching");
+		Circle1 cir3 = new Circle1(0, 0,4.9999999);
+		Circle1 cir4 = new Circle1(12,9,10);
+		Assert.assertFalse(cir3.intersects(cir4)); 
+		Assert.assertFalse(cir4.intersects(cir3)); 
+
+	}
+
+	
+
 	//
 	// Test a simple positive move
 	//
