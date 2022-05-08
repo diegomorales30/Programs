@@ -73,6 +73,12 @@ public class Circle1Test
 		Circle1 cir4 = new Circle1(5, 6, 8);
 		Assert.assertTrue(cir3.intersects(cir4));
 		Assert.assertTrue(cir4.intersects(cir3));
+
+		System.out.println("The two circles intersect at 1 point");
+		Circle1 cir5 = new Circle1(0, 7, 3);
+		Circle1 cir6 = new Circle1(3, 3, 2);
+		Assert.assertTrue(cir5.intersects(cir6));
+		Assert.assertTrue(cir6.intersects(cir5));
 	}
 
 	
