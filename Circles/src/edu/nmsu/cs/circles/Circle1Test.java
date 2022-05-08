@@ -35,6 +35,15 @@ public class Circle1Test
 		System.out.println("\nTest finished.");
 	}
 
+	@Test
+	public void testBigScale(){
+		System.out.println("Test: For scale of a big circle");
+		double factorForScale = 2.5;
+		double orginalRadius = circle1.radius;
+		double newRadius = circle1.scale(factorForScale);
+		Assert.assertTrue(newRadius == orginalRadius * factorForScale);
+	}
+
 	//
 	// Test a simple positive move
 	//
