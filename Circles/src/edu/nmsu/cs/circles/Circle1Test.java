@@ -46,7 +46,7 @@ public class Circle1Test
 	}
 
 	
-
+	// test interections of a circle
 	@Test
 	public void interSectionCircles(){
 		System.out.println("Two circles on top of each other");
@@ -62,6 +62,7 @@ public class Circle1Test
 		Assert.assertTrue(circle1.intersects(cir5) == true);
 	}
 
+	// test no intersections
 	@Test
 	public void noInterSection(){
 		Circle1 cir1 = new Circle1(10,10,8);

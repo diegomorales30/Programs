@@ -26,7 +26,7 @@ public class Circle2Test
 		System.out.println("\nTest finished.");
 	}
 
-
+    // test growth circle
     @Test
     public void testScaleGrowth(){
         System.out.println("Test for scale of a big circle");
@@ -36,6 +36,7 @@ public class Circle2Test
         Assert.assertTrue(newRadius == orginalRadius*factorForScale);
     }
 
+    // test intersection
     @Test
 	public void interSectionCircles(){
 		System.out.println("Two circles on top of each other");
@@ -51,6 +52,7 @@ public class Circle2Test
 		Assert.assertTrue(circle2.intersects(cir5) == true);
 	}
 
+    // test no intersection
 	@Test
 	public void noInterSection(){
 		Circle2 cir1 = new Circle2(10,10,8);
