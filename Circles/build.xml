@@ -36,7 +36,7 @@
         </java>
     </target>
 
-     <target name="testCircle1" description="runs JUnit on testCircle1">
+     <target name="testCircle1" description="runs JUnit on testCircle1" depends="cleancompile">
         <java classname="org.junit.runner.JUnitCore" fork="true" dir="${basedir}">
             <classpath>
                 <fileset dir="${library.dir}">
@@ -44,11 +44,11 @@
                 </fileset>
                 <pathelement path="${build.dir}"/>
             </classpath>
-            <arg values="edu.nmsu.cs.circles.Circle1Test"/>
+            <arg value="edu.nmsu.cs.circles.Circle1Test"/>
         </java>
     </target>
 
-    <target name="testCircle2" description="runs JUnit on testCircles2">
+    <target name="testCircle2" description="runs JUnit on testCircles2" depends="cleancompile">
         <java classname="org.junit.runner.JUnitCore" fork="true" dir="${basedir}">
             <classpath>
                 <fileset dir="${library.dir}">
@@ -56,7 +56,7 @@
                 </fileset>
                 <pathelement path="${build.dir}"/>
             </classpath>
-            <arg values="edu.nmsu.cs.circles.Circle2Test"/>
+            <arg value="edu.nmsu.cs.circles.Circle2Test"/>
         </java>
     </target>
 
