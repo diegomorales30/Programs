@@ -50,12 +50,7 @@ public class Circle1Test
 		Circle1 cir1 = new Circle1(10,10,8);
 		System.out.println("The circles are far apart");
 		Assert.assertFalse(cir1.intersects(circle1));
-		
-
-		System.out.println("The two circle are barley touching");
-		Circle1 cir3 = new Circle1(10, 10,8.9999999);
-		Assert.assertFalse(cir3.intersects(circle1)); 
-		
+				
 	}
 
 	@Test
