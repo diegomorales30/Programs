@@ -47,38 +47,30 @@ public class Circle1Test
 
 	@Test
 	public void noInterSection(){
-		Circle1 cir1 = new Circle1(0,0,10);
-		Circle1 cir2 = new Circle1(30, 30, 10);
+		Circle1 cir1 = new Circle1(10,10,8);
 		System.out.println("The circles are far apart");
-		Assert.assertFalse(cir1.intersects(cir2));
-		Assert.assertFalse(cir2.intersects(cir1));
+		Assert.assertFalse(cir1.intersects(circle1));
+		
 
 		System.out.println("The two circle are barley touching");
-		Circle1 cir3 = new Circle1(0, 0,4.9999999);
-		Circle1 cir4 = new Circle1(12,9,10);
-		Assert.assertFalse(cir3.intersects(cir4)); 
-		Assert.assertFalse(cir4.intersects(cir3)); 
+		Circle1 cir3 = new Circle1(10, 10,8.9999999);
+		Assert.assertFalse(cir3.intersects(circle1)); 
+		
 	}
 
 	@Test
 	public void interSectionCircles(){
 		System.out.println("Two circles on top of each other");
-		Circle1 cir1 = new Circle1(10, 10, 10 );
-		Circle1 cir2 = new Circle1(10, 10, 10);
-		Assert.assertTrue(cir1.intersects(cir2));
-		Assert.assertTrue(cir2.intersects(cir1));
+		Circle1 cir1 = new Circle1(1, 2,3 );
+		Assert.assertTrue(cir1.intersects(circle1));
 
 		System.out.println("Two circles intersect at 2 points");
-		Circle1 cir3 = new Circle1(10, 10, 10 );
-		Circle1 cir4 = new Circle1(5, 6, 8);
-		Assert.assertTrue(cir3.intersects(cir4));
-		Assert.assertTrue(cir4.intersects(cir3));
+		Circle1 cir3 = new Circle1(10, 10, 11 );
+		Assert.assertTrue(cir3.intersects(circle1));
 
 		System.out.println("The two circles intersect at 1 point");
 		Circle1 cir5 = new Circle1(0, 7, 3);
-		Circle1 cir6 = new Circle1(3, 3, 2);
-		Assert.assertTrue(cir5.intersects(cir6));
-		Assert.assertTrue(cir6.intersects(cir5));
+		Assert.assertTrue(cir5.intersects(circle1));
 	}
 
 	
