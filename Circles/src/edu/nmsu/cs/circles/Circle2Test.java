@@ -35,6 +35,29 @@ public class Circle2Test
 		System.out.println("\nTest finished.");
 	}
 
+    @Test
+	public void interSectionCircles(){
+		System.out.println("Two circles on top of each other");
+		Circle2 cir1 = new Circle2(1, 2,3 );
+		Assert.assertTrue(circle2.intersects(cir1) == true);
+
+		System.out.println("Two circles intersect at 2 points");
+		Circle2 cir3 = new Circle2(10, 10, 11 );
+		Assert.assertTrue(circle2.intersects(cir3) == true);
+
+		System.out.println("The two circles intersect at 1 point");
+		Circle2 cir5 = new Circle2(0, 7, 3);
+		Assert.assertTrue(circle2.intersects(cir5) == true);
+	}
+
+	@Test
+	public void noInterSection(){
+		Circle2 cir1 = new Circle2(10,10,8);
+		System.out.println("The circles are far apart");
+		Assert.assertFalse(circle2.intersects(cir1) == false);
+				
+	}
+
 	@Test
 	public void testBigScale(){
 		System.out.println("Test: For scale of a big circle");
