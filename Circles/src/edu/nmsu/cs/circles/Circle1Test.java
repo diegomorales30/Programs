@@ -58,7 +58,21 @@ public class Circle1Test
 		Circle1 cir4 = new Circle1(12,9,10);
 		Assert.assertFalse(cir3.intersects(cir4)); 
 		Assert.assertFalse(cir4.intersects(cir3)); 
+	}
 
+	@Test
+	public void interSectionCircles(){
+		System.out.println("Two circles on top of each other");
+		Circle1 cir1 = new Circle1(10, 10, 10 );
+		Circle1 cir2 = new Circle1(10, 10, 10);
+		Assert.assertTrue(cir1.intersects(cir2));
+		Assert.assertTrue(cir2.intersects(cir1));
+
+		System.out.println("Two circles intersect at 2 points");
+		Circle1 cir3 = new Circle1(10, 10, 10 );
+		Circle1 cir4 = new Circle1(5, 6, 8);
+		Assert.assertTrue(cir3.intersects(cir4));
+		Assert.assertTrue(cir4.intersects(cir3));
 	}
 
 	
