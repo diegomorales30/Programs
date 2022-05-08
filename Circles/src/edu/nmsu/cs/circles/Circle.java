@@ -52,8 +52,9 @@ public abstract class Circle
 	 **/
 	public Point moveBy(double xOffset, double yOffset)
 	{
+		//TODO erro in one of these method
 		center.x = center.x + xOffset;
-		center.y = center.y + xOffset;
+		center.y = center.y + yOffset;
 		return center;
 	}
 
