@@ -35,6 +35,7 @@ public class Circle1Test
 		System.out.println("\nTest finished.");
 	}
 
+	// Test for make circle bigger
 	@Test
 	public void testBigScale(){
 		System.out.println("Test: For scale of a big circle");
