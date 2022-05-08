@@ -45,29 +45,30 @@ public class Circle1Test
 		Assert.assertTrue(newRadius == orginalRadius * factorForScale);
 	}
 
-	@Test
-	public void noInterSection(){
-		Circle1 cir1 = new Circle1(10,10,8);
-		System.out.println("The circles are far apart");
-		Assert.assertFalse(cir1.intersects(circle1));
-				
-	}
+	
 
 	@Test
 	public void interSectionCircles(){
 		System.out.println("Two circles on top of each other");
 		Circle1 cir1 = new Circle1(1, 2,3 );
-		Assert.assertTrue(cir1.intersects(circle1));
+		Assert.assertTrue(circle1.intersects(cir1) == true);
 
 		System.out.println("Two circles intersect at 2 points");
 		Circle1 cir3 = new Circle1(10, 10, 11 );
-		Assert.assertTrue(cir3.intersects(circle1));
+		Assert.assertTrue(circle1.intersects(cir3) == true);
 
 		System.out.println("The two circles intersect at 1 point");
 		Circle1 cir5 = new Circle1(0, 7, 3);
-		Assert.assertTrue(cir5.intersects(circle1));
+		Assert.assertTrue(circle1.intersects(cir5) == true);
 	}
 
+	@Test
+	public void noInterSection(){
+		Circle1 cir1 = new Circle1(10,10,8);
+		System.out.println("The circles are far apart");
+		Assert.assertFalse(circle1.intersects(cir1) == false);
+				
+	}
 	
 
 	//
